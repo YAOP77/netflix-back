@@ -1,0 +1,26 @@
+require('dotenv').config();
+const express = require("express");
+const cors = require("cors");
+const userRoutes = require("./routes/UserRoutes");
+const mongoose = require("mongoose");
+
+const app = express();
+
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/netflix-clone';
+
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch((err) => console.error('MongoDB connection error:', err));
+
+// CORS pour autoriser le frontend React
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(express.json());
+
+app.use("/api/user", userRoutes);
+
+app.listen(5000, () => {
+  console.log("server started on port 5000");
+});
