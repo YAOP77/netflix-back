@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const app = express();
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://yaoyaopascal77:gJOgYVKc7YoSYlls@cluster0.ouslcep.mongodb.net/netflix-clone?retryWrites=true&w=majority&appName=Cluster0';
+const FRONTEND_URI = process.env.FRONTEND_URI || 'https://netflix-front-kappa.vercel.app';
+const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -16,11 +18,11 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch((err) => console.error('MongoDB connection error:', err));
 
 // CORS pour autoriser le frontend React
-app.use(cors({ origin: `${FRONTEND_URI}`, credentials: true }));
+app.use(cors({ origin: FRONTEND_URI, credentials: true }));
 app.use(express.json());
 
 app.use("/api/user", userRoutes);
 
-app.listen(5000, () => {
-  console.log("server started on port 5000");
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
 });
