@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/netflix-clone';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://yaoyaopascal77:gJOgYVKc7YoSYlls@cluster0.ouslcep.mongodb.net/netflix-clone?retryWrites=true&w=majority&appName=Cluster0';
 
-mongoose.connect(MONGO_URI, {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -16,7 +16,7 @@ mongoose.connect(MONGO_URI, {
 .catch((err) => console.error('MongoDB connection error:', err));
 
 // CORS pour autoriser le frontend React
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: `${FRONTEND_URI}`, credentials: true }));
 app.use(express.json());
 
 app.use("/api/user", userRoutes);
