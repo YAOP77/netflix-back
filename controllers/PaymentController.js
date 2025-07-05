@@ -5,6 +5,7 @@ const MONEYFUSION_API_URL = process.env.MONEYFUSION_API_URL || 'https://api.mone
 const MONEYFUSION_API_KEY = process.env.MONEYFUSION_API_KEY || 'VOTRE_CLE_API';
 
 exports.payWithMoneyFusion = async (req, res) => {
+  console.log('Money Fusion request:', req.body);
   const { amount, phone, operator } = req.body;
   if (!amount || !phone || !operator) {
     return res.status(400).json({ error: 'amount, phone et operator sont requis' });
@@ -24,6 +25,7 @@ exports.payWithMoneyFusion = async (req, res) => {
     });
     res.json({ success: true, data: response.data });
   } catch (err) {
+    console.error('Money Fusion error:', err);
     res.status(500).json({ success: false, error: err.response?.data || err.message });
   }
 }; 
